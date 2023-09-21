@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   SafeAreaView,
@@ -6,53 +5,30 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 import {Arrow, HomeIndicater, Qrcode} from '../Assests';
 import Scanner from './Scanner';
 import Colors from '../Assests/ColorFormat';
 const Home = ({navigation}) => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: Colors.orange}}>
-      <View style={{flex: 1.5, justifyContent: 'center', alignItems: 'center'}}>
+    <SafeAreaView style={style.container}>
+      <View style={style.CenterIcon}>
         <Qrcode />
       </View>
 
-      <View
-        style={{
-          flex: 0.7,
-          backgroundColor: '#333',
-          borderTopRightRadius: 22,
-          borderTopLeftRadius: 22,
-        }}>
+      <View style={style.BottomCnt}>
         <ScrollView>
           <View style={{alignItems: 'center', margin: 22}}>
             <HomeIndicater />
           </View>
-          <Text
-            style={{color: Colors.white, fontSize: 42, textAlign: 'center'}}>
-            Get Started
-          </Text>
-          <Text
-            style={{color: Colors.white, fontSize: 15, textAlign: 'center'}}>
-            Go and enjoy our features for free
-          </Text>
-          <Text
-            style={{color: Colors.white, fontSize: 15, textAlign: 'center'}}>
-            {' '}
-            and make your life easy with us.
-          </Text>
+          <Text style={style.FirstTxt}>Get Started</Text>
+          <Text style={style.MidTxt}>Go and enjoy our features for free</Text>
+          <Text style={style.MidTxt}>and make your life easy with us.</Text>
           <TouchableOpacity
-            style={{
-              padding: 10,
-              backgroundColor: Colors.orange,
-              margin: 20,
-              borderRadius: 20,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
+            style={style.BottomBtn}
             onPress={() => navigation.navigate(Scanner)}>
-            <Text style={{color: Colors.black, marginLeft: 20}}>Let’s Go</Text>
+            <Text style={style.BtnTxt}>Let’s Go</Text>
             <Arrow style={{marginRight: 20}} />
           </TouchableOpacity>
         </ScrollView>
@@ -60,4 +36,26 @@ const Home = ({navigation}) => {
     </SafeAreaView>
   );
 };
+const style = StyleSheet.create({
+  container: {flex: 1, backgroundColor: Colors.orange},
+  CenterIcon: {flex: 1.5, justifyContent: 'center', alignItems: 'center'},
+  BottomCnt: {
+    flex: 0.7,
+    backgroundColor: '#333',
+    borderTopRightRadius: 22,
+    borderTopLeftRadius: 22,
+  },
+  FirstTxt: {color: Colors.white, fontSize: 42, textAlign: 'center'},
+  MidTxt: {color: Colors.white, fontSize: 15, textAlign: 'center'},
+  BottomBtn: {
+    padding: 10,
+    backgroundColor: Colors.orange,
+    margin: 20,
+    borderRadius: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  BtnTxt: {color: Colors.black, marginLeft: 20},
+});
 export default Home;

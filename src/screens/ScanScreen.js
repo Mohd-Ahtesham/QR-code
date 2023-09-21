@@ -1,8 +1,7 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 
 import {
   View,
-  AppRegistry,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,34 +11,62 @@ import {
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
+import {Camera, FlashOff, FlashOn, Qrcode2, Qrcode3, Qrcode4} from '../Assests';
+import Colors from '../Assests/ColorFormat';
 
 const ScanScreen = () => {
   const [scanAgin, setScanAgain] = useState(false);
-  const [set, setFlash] = useState(RNCamera.Constants.FlashMode.torch);
+  const [set, setFlash] = useState(RNCamera.Constants.FlashMode.off);
+  const [cameraflip, setCameraFlip] = useState('front');
+
   const onSuccess = e => {
     Linking.openURL(e.data).catch(err =>
       console.error('An error occured', err),
     );
   };
 
+  const flip = () => {
+    if (cameraflip === 'front') {
+      setCameraFlip('back');
+    } else {
+      setCameraFlip('front');
+    }
+  };
+
+  const pressed = () => {
+    if (set === RNCamera.Constants.FlashMode.torch) {
+      setFlash(RNCamera.Constants.FlashMode.off);
+    } else {
+      setFlash(RNCamera.Constants.FlashMode.torch);
+    }
+  };
+
   return (
-    <ScrollView style={{flex: 1}}>
+    <ScrollView>
       <QRCodeScanner
-        style={{flex: 1}}
         onRead={onSuccess}
         flashMode={set}
         reactivate={scanAgin}
+        cameraType={cameraflip}
+        topViewStyle={styles.topcontainer}
+        topContent={
+          <Text>To scan the code please point your camera at the barcode.</Text>
+        }
         bottomContent={
-          <View>
+          <View style={styles.bottomcontainer}>
             <TouchableOpacity
-              style={styles.buttonTouchable}
+              style={styles.icons}
               onPress={() => setScanAgain(true)}>
-              <Text style={styles.buttonText}>Scan again</Text>
+              <Qrcode4 />
+              <Text>Scan again</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonTouchable}
-              onPress={() => setFlash(RNCamera.Constants.FlashMode.off)}>
-              <Text style={styles.buttonText}>Flash Off</Text>
+            <TouchableOpacity style={styles.icons} onPress={pressed}>
+              <View>{set ? <FlashOff /> : <FlashOn />}</View>
+              <Text>flash Mode</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.icons} onPress={flip}>
+              <Camera />
+              <Text>Flip camera</Text>
             </TouchableOpacity>
           </View>
         }
@@ -49,22 +76,15 @@ const ScanScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  centerText: {
-    flex: 1,
-    fontSize: 18,
-    padding: 32,
-    color: '#777',
+  icons: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: Colors.orange,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
   },
-  textBold: {
-    fontWeight: '500',
-    color: '#000',
-  },
-  buttonText: {
-    fontSize: 21,
-    color: 'rgb(0,122,255)',
-  },
-  buttonTouchable: {
-    padding: 16,
-  },
+  topcontainer: {marginBottom: 50, paddingVertical: 50},
+  bottomcontainer: {flexDirection: 'row', padding: 70},
 });
 export default ScanScreen;
