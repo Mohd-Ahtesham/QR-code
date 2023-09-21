@@ -11,13 +11,13 @@ import {
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
-import {Camera, FlashOff, FlashOn, Qrcode2, Qrcode3, Qrcode4} from '../Assests';
+import {Camera, FlashOff, FlashOn, Qrcode4} from '../Assests';
 import Colors from '../Assests/ColorFormat';
 
 const ScanScreen = () => {
-  const [scanAgin, setScanAgain] = useState(false);
+  const [scanAgin, setScanAgain] = useState(true);
   const [set, setFlash] = useState(RNCamera.Constants.FlashMode.off);
-  const [cameraflip, setCameraFlip] = useState('front');
+  const [cameraflip, setCameraFlip] = useState('back');
 
   const onSuccess = e => {
     Linking.openURL(e.data).catch(err =>
@@ -46,6 +46,7 @@ const ScanScreen = () => {
       <QRCodeScanner
         onRead={onSuccess}
         flashMode={set}
+        showMarker={true}
         reactivate={scanAgin}
         cameraType={cameraflip}
         topViewStyle={styles.topcontainer}
