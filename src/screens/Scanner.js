@@ -20,7 +20,7 @@ const Scanner = ({navigation}) => {
       <SafeAreaView style={{flex: 1}}>
         <Image
           source={require('../Assests/background.png')}
-          style={{height: 320, width: 400}}
+          style={{flex: 1, height: 300, width: 450}}
         />
         <View style={styles.iconCnt}>
           <TouchableOpacity onPress={() => navigation.navigate(ScanScreen)}>
@@ -79,9 +79,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   scanIcon: {
-    position: 'absolute',
-    marginLeft: 125,
-    top: -40,
+    top: -80,
+    height: 30,
   },
 });
 export default Scanner;

@@ -25,25 +25,10 @@ const GenerateQr = () => {
         }}
         value={msg}
       />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.QrView}>
         <QRCode value={msg} size={200}></QRCode>
       </View>
-      <TouchableOpacity
-        onPress={() => setMsg(' ')}
-        style={{
-          height: 40,
-          marginVertical: 42,
-          marginHorizontal: 15,
-          borderWidth: 1,
-          padding: 10,
-          borderRadius: 20,
-          backgroundColor: Colors.orange,
-        }}>
+      <TouchableOpacity onPress={() => setMsg(' ')} style={styles.Btn}>
         <Text style={{textAlign: 'center'}}>clean</Text>
       </TouchableOpacity>
     </View>
@@ -57,6 +42,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 20,
+  },
+  QrView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  Btn: {
+    height: 40,
+    marginVertical: 42,
+    marginHorizontal: 15,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: Colors.orange,
   },
 });
 export default GenerateQr;

@@ -19,21 +19,21 @@ const ScanScreen = () => {
   const [scanAgin, setScanAgain] = useState(false);
   const [set, setFlash] = useState(RNCamera.Constants.FlashMode.off);
   const [cameraflip, setCameraFlip] = useState('back');
-  const [show, setShow] = useState("");
-
-  const onSuccess = e => {
-    if (
-      e.data.match(
-        '^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$',
-      )
-    ) {
-      Linking.openURL(e.data).catch(err => console.error(err));
-    } else {
-      setShow(e.data);
-      console.log(e.data)
+  const [show, setShow] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  // eslint-disable-next-line space-infix-ops, prettier/prettier
+  const rejex =
+    '^((ftp|http|https)://)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(.[a-zA-Z]+)+((/)[w#]+)*(/w+?[a-zA-Z0-9_]+=w+(&[a-zA-Z0-9_]+=w+)*)?/?$';
+  const onSuccess = () => {
+    if (show.match(rejex)) {
+      Linking.openURL(show).catch(err => console.error(err));
     }
   };
 
+  const onWork = e => {
+    setShow(e.data);
+    setModalVisible(true);
+  };
   const flip = () => {
     if (cameraflip === 'front') {
       setCameraFlip('back');
@@ -53,19 +53,14 @@ const ScanScreen = () => {
   return (
     <ScrollView>
       <QRCodeScanner
-        onRead={onSuccess}
+        onRead={onWork}
         flashMode={set}
         showMarker={true}
         reactivate={scanAgin}
         cameraType={cameraflip}
         topViewStyle={styles.topcontainer}
         topContent={
-          <View>
-            <Text>
-              To scan the code please point your camera at the barcode.
-            </Text>
-            <Text>{show}</Text>
-          </View>
+          <Text>To scan the code please point your camera at the barcode.</Text>
         }
         bottomContent={
           <View style={styles.bottomcontainer}>
@@ -86,9 +81,21 @@ const ScanScreen = () => {
           </View>
         }
       />
-      <Modal 
-      animationType="slide"
-       transparent={true}></Modal>
+
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity onPress={onSuccess}>
+              <Text style={styles.modalText}>{show}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(false)}>
+              <Text style={styles.textStyle}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -104,5 +111,46 @@ const styles = StyleSheet.create({
   },
   topcontainer: {marginBottom: 50, paddingVertical: 50},
   bottomcontainer: {flexDirection: 'row', padding: 70},
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
 });
 export default ScanScreen;
