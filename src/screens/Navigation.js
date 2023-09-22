@@ -5,6 +5,7 @@ import Home from './Home';
 
 import Scanner from './Scanner';
 import ScanScreen from './ScanScreen';
+import GenerateQr from './GenerateQr';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ const Navigation = () => {
         />
         <Stack.Screen name="Scanner" component={Scanner} />
         <Stack.Screen name="ScanScreen" component={ScanScreen} />
+        <Stack.Screen name="GenerateQr" component={GenerateQr} />
       </Stack.Navigator>
     </NavigationContainer>
   );

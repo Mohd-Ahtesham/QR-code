@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Linking,
   ScrollView,
+  Modal,
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -15,14 +16,22 @@ import {Camera, FlashOff, FlashOn, Qrcode4} from '../Assests';
 import Colors from '../Assests/ColorFormat';
 
 const ScanScreen = () => {
-  const [scanAgin, setScanAgain] = useState(true);
+  const [scanAgin, setScanAgain] = useState(false);
   const [set, setFlash] = useState(RNCamera.Constants.FlashMode.off);
   const [cameraflip, setCameraFlip] = useState('back');
+  const [show, setShow] = useState("");
 
   const onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err),
-    );
+    if (
+      e.data.match(
+        '^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$',
+      )
+    ) {
+      Linking.openURL(e.data).catch(err => console.error(err));
+    } else {
+      setShow(e.data);
+      console.log(e.data)
+    }
   };
 
   const flip = () => {
@@ -51,7 +60,12 @@ const ScanScreen = () => {
         cameraType={cameraflip}
         topViewStyle={styles.topcontainer}
         topContent={
-          <Text>To scan the code please point your camera at the barcode.</Text>
+          <View>
+            <Text>
+              To scan the code please point your camera at the barcode.
+            </Text>
+            <Text>{show}</Text>
+          </View>
         }
         bottomContent={
           <View style={styles.bottomcontainer}>
@@ -72,6 +86,9 @@ const ScanScreen = () => {
           </View>
         }
       />
+      <Modal 
+      animationType="slide"
+       transparent={true}></Modal>
     </ScrollView>
   );
 };

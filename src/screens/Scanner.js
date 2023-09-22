@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Colors from '../Assests/ColorFormat';
 import ScanScreen from './ScanScreen';
+import GenerateQr from './GenerateQr';
 const Scanner = ({navigation}) => {
   return (
     <ScrollView>
@@ -26,14 +27,14 @@ const Scanner = ({navigation}) => {
             <View style={styles.iconTouch}>
               <Qrcode2 />
             </View>
-            <Text style={{textAlign: 'center'}}> Qr code</Text>
+            <Text style={{textAlign: 'center'}}> Qr Scan</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate(GenerateQr)}>
             <View style={styles.imageCnt}>
               <BarCode />
             </View>
-            <Text style={{textAlign: 'center'}}> Bar code</Text>
+            <Text style={{textAlign: 'center'}}> Generate Qr</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.bottomNav}>
