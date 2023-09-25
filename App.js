@@ -1,14 +1,12 @@
 import React, {useEffect} from 'react';
 import Navigation from './src/screens/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {Platform} from 'react-native';
+import Navigation2 from './src/screens/Navigation2';
 
 const App = () => {
   useEffect(() => {
-    if (Platform.OS === 'android') {
-      SplashScreen.hide();
-    }
+    SplashScreen.hide();
   }, []);
-  return <Navigation />;
+  return <Navigation2 />;
 };
 export default App;
