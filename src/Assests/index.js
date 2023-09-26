@@ -10,11 +10,17 @@ import FlashOn from './flash-on.svg';
 import FlashOff from './flash-off.svg';
 import Qrcode4 from './Qrcode4.svg';
 import Camera from './camera.svg';
+import Share from './share.svg';
+import Logout from './logout.svg';
+
+import HomeIcon from './home.svg';
 export {
   Qrcode,
   HomeIndicater,
+  Logout,
   Arrow,
   BarCode,
+  Share,
   Qrcode2,
   Qrcode3,
   Qrcode4,
@@ -23,4 +29,5 @@ export {
   FlashOff,
   Camera,
   FlashOn,
+  HomeIcon,
 };
